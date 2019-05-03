@@ -6,7 +6,8 @@ async function createUser(req, res, next) {
         const user = await models.user.create({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            passwordResetDate: Date.now()
         });
 
         res.json({

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const models = require('../../models/index');
 
 
-module.exports = exports = new LocalStrategy({ usernameField: 'email', passwordField: 'password', passReqToCallback: true },
+module.exports = exports = new LocalStrategy({ usernameField: 'username', passwordField: 'password', passReqToCallback: true },
     (async (req, username, password, done) => {
         try {
             const user = await models.user.findOne({ where: { email: username } });
@@ -14,13 +14,22 @@ module.exports = exports = new LocalStrategy({ usernameField: 'email', passwordF
                     if (decodedPassword) {
                         done(null, user);
                     } else {
-                        done(null, false, { message: 'Password does not match', code: 401 });
+                        done({
+                            source: 'password',
+                            message: 'Wrong Password',
+                        }, false);
                     }
                 } else {
-                    done(null, false, { message: 'Password does not match' });
+                    done({
+                        source: 'password',
+                        message: 'Wrong Password',
+                    }, false);
                 }
             } else {
-                done(null, false, { message: 'User is not registered with the system' });
+                done({
+                    source: 'email',
+                    message: 'Email ID not found',
+                }, false);
             }
         } catch (error) {
             done(error);

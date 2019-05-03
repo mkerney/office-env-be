@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    passwordResetDate: DataTypes.DATE
   }, {});
   user.beforeCreate((eachUser, info) => {
     if(eachUser.password){

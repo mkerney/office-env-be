@@ -9,7 +9,7 @@ async function testData(req, res, next) {
             programType: req.body.programType,
             transactionType: req.body.transactionType,
             comment: req.body.comment,
-            submitterId: req.body.submitterId
+            submitterId: req.currentUser.id
         });
 
         res.json({
